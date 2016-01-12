@@ -1,4 +1,4 @@
-package com.company.task2;
+package com.company.task2.connection;
 
 /**
  * Created by Ira on 11.01.2016.

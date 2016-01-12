@@ -1,4 +1,4 @@
-package com.company.task2;
+package com.company.task2.connection;
 
 import java.util.ResourceBundle;
 
