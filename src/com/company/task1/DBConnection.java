@@ -10,10 +10,11 @@ public class DBConnection {
     private Statement statement = null;
     private ResultSet resultSet = null;
 
+
     public DBConnection(String dbName, String dbUser, String dbPass) {
         try {
-            String url = "jdbc:mysql6://localhost:3306/test";
-            Class.forName("com.mysql6.jdbc.Driver"); // регистрируем драйвер
+            String url = "jdbc:mysql://localhost:3306/test";
+            Class.forName("com.mysql.jdbc.Driver"); // регистрируем драйвер
             connection = DriverManager.getConnection(url, dbUser, dbPass); // установка соединения
 
         } catch (ClassNotFoundException e) {
@@ -50,7 +51,6 @@ public class DBConnection {
                 String name = resultSet.getString("name");
                 int age = resultSet.getInt("age");
                 int newAge = age + 5;
-
                 //   System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) + " " + resultSet.getInt(3));
                 resultSet.updateInt("age", newAge);
                 resultSet.updateRow();
@@ -89,7 +89,7 @@ public class DBConnection {
             String sql = ("INSERT INTO Students VALUES (" + numRow + ",'" + fio + "'," + age + ")");
             statement.executeUpdate(sql);
             resultSet.close();
-            showAllRows();
+           // showAllRows();
 
         } catch (SQLException e) {
 
@@ -99,6 +99,16 @@ public class DBConnection {
 
     }
 
+    public void dropTable(String tName){
+        try {
+            statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String sql = "DROP TABLE" + tName;
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
     public void closeConnection() {

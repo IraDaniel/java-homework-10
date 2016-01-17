@@ -23,7 +23,7 @@ public class MySQLAuthorDao implements AuthorDao {
         this.statement = statement;
     }
 
-    public void create(Author author){
+    public void save(Author author){
 
         try {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -38,7 +38,7 @@ public class MySQLAuthorDao implements AuthorDao {
         }
     }
 
-    public Author read(int idAuthor){
+    public Author findById(int idAuthor){
         Author author = new Author();
 
         try {
@@ -56,12 +56,20 @@ public class MySQLAuthorDao implements AuthorDao {
         }
         return author;
     }
+    public void update(Author author){
+        try {
+            statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
+            String sql = "update Author set name = '" + author.getName() + "', surname =" + author.getSurname() +
+                    "where id =" + author.getId();
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
 
-    public void delete(String Surname, String name){
-
-
+        }
     }
+
     public void delete(Author author){
         try {
             String sql = "delete FROM author where id = " + author.getId() + " and name = '" + author.getName() + "' and surname = '" + author.getSurname() + "'";
@@ -98,8 +106,27 @@ public class MySQLAuthorDao implements AuthorDao {
 
         return authors;
     }
+    public Author findByBook(Book book){
+        Author author = new Author();
+        try {
+            String sql = "SELECT idAuthor FROM book where idAuthor= " + book.getIdAuthor();
+            statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet resultSet = statement.executeQuery(sql);
+            author.setId(resultSet.getInt("idAuthor"));
+            resultSet.close();
+            sql = "select name,surname from author where id=" + author.getId();
+            resultSet = statement.executeQuery(sql);
+            author.setName(resultSet.getString("name"));
+            author.setSurname(resultSet.getString("surname"));
+            resultSet.close();
 
-    public List<Author> getAll(){
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return author;
+    }
+
+    public List<Author> findAll(){
         List<Author> authors = new ArrayList<>();
 
         try {
@@ -137,5 +164,7 @@ public class MySQLAuthorDao implements AuthorDao {
         }
         return nextId;
     }
+
+
 
 }

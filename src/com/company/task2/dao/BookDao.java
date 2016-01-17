@@ -10,16 +10,17 @@ import java.util.List;
 public interface BookDao {
 
 
-    //Создает новую запись и соответствующий ей объект
-    void create(Book bookEntity);
+    //Добавляет объект в БД
+   void save (Book bookEntity);
 
-    Book read(int idBook);
+    Book findById(int idBook);
+    Book findByName(String bookName);
 
     //Удаляет запись об объекте
-    public void delete(String bookName);
-    public void delete(Book book);
-    void update(Book book);
-    List<Book> getAll();
+   // public void delete(String bookName);
+    void delete(Book book);
+    void update(Book book); // обновление информации книги
+    List<Book> findAll();
 
 
 

@@ -18,45 +18,37 @@ public class Main {
 
     public static void main(String[] args) throws ConnectionPoolException,SQLException {
 
-     //   DBConnection dbConnection = new DBConnection("test","root","JustROOT");
-       // dbConnection.selectInformation();
-     //   dbConnection.insertRow("Ivanov",20);
-      //  dbConnection.closeConnection();
-	// write your code here
+
 
         ConnectionPool connectionPool = new ConnectionPool();
         connectionPool.initPoolData();
 
         Statement statement = connectionPool.takeConnection().createStatement();
         BookDao bookDao = new MySQLBookDao(connectionPool.takeConnection(),statement);
-        Book book = new Book();
-        book.init("Boris Godunov",1);
-        bookDao.create(book);
-        bookDao.create(book);
-        bookDao.delete(book);
-        List<Book> books = bookDao.getAll();
-        bookDao.delete(books.get(2));
-        AuthorDao authorDao = new MySQLAuthorDao(connectionPool.takeConnection(), statement);
-        List<Author> authors = authorDao.getAll();
-        authorDao.delete(authors.get(1));
-        connectionPool.closeConnection(connectionPool.takeConnection(),statement);
-        //Author author =
-       // connectionPool.closeConnection(connectionPool.takeConnection(),connectionPool.);
-       // bookDao.read(1).show();
-      //  bookDao.delete(book);
-      /*  for(Book book: bookDao.getAll()){
-            System.out.println(book.toString());
+        Book book1 = new Book();
+        Book book2 = new Book();
+        Book book3 = new Book();
+
+        book1.init("Boris Godunov",1);
+        book2.init("Ruslan and Ludmila", 1);
+        book3.init("Romeo and Juliet", 2);
+
+        bookDao.save(book1);
+        bookDao.save(book2);
+        bookDao.save(book3);
+
+        for( Book book: bookDao.findAll()){
+            System.out.println(book);
         }
 
-        for(Author author: authorDao.findBySurname("Pushkin")){
-            System.out.println(author.toString());
-        }*/
-       // System.out.println( authorDao.read(1).toString());
+        AuthorDao authorDao = new MySQLAuthorDao(connectionPool.takeConnection(), statement);
 
-        //List<Author>
+        for(Author author: authorDao.findAll()){
+            System.out.println(author);
+        }
+
+        connectionPool.closeConnection(connectionPool.takeConnection(),statement);
 
 
-
-       // connectionPool.takeConnection()
     }
 }

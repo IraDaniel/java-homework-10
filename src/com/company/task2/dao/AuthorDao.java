@@ -11,13 +11,21 @@ import java.util.List;
  */
 public interface AuthorDao {
 
-    void create(Author author);
-    Author read(int idAuthor);
-    void delete(String Surname, String name);
+    void save(Author author);
+
+    Author findById(int idAuthor);
+    List<Author> findAll();
+    List<Author> findBySurname(String Surname);
+    Author findByBook(Book book);
+
+    void update(Author author);
+
     void delete(Author author);
-    void update(Book author);
-    List<Author> findBySurname(String surname);
-    List<Author> getAll();
-    //String getSurnameById(int idAuthor);
+
+
+
+
+
+
 
 }
